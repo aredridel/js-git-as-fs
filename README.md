@@ -4,7 +4,7 @@ This is a simple module to make a git repo appear similar to the object from
 It's incomplete -- just read and write streams at this point, but it
 illustrates the concept.
 
-```
+```javascript
 var repo = jsGit(fsDb(platform.fs('pages.git')));
 var vfs = require('js-git-as-fs')(repo);
 

@@ -1,0 +1,8 @@
+{
+  "name": "js-git-as-fs",
+  "version": "0.0.0",
+  "description": "A fs-module alike interface to a jsgit repo",
+  "main": "index.js",
+  "author": "Aria Stewart <aredridel@dinhe.net>",
+  "license": "BSD"
+}

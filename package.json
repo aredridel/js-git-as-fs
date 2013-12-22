@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "description": "A fs-module alike interface to a jsgit repo",
   "main": "index.js",
+  "dependencies": {
+    "concat-stream": "aredridel/node-concat-stream"
+  },
+  "peerDependencies": {
+    "js-git": "~0.6.1"
+  },
   "author": "Aria Stewart <aredridel@dinhe.net>",
   "license": "BSD"
 }

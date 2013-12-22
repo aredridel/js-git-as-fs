@@ -26,7 +26,7 @@ module.exports = function wrap(repo, ref, cb) {
             },
 
             createWriteStream: function (path) {
-                return concat(function (data, done) {
+                var s = concat(function (data, done) {
                     pathWalk.call(repo, root, path, function (err, obj, finish) {
                         if (err) return s.emit('error', err);
                         if (obj.type == 'blob') {
@@ -43,6 +43,7 @@ module.exports = function wrap(repo, ref, cb) {
                         done();
                     });
                 });
+                return s;
             },
 
             commit: function (message, cb) {

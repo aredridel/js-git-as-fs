@@ -1,39 +1,28 @@
-module.exports = function pathWalk(hash, path, cb, up) {
+module.exports = function pathWalk(hash, path, cb, n) {
     if (!cb) return pathWalk.bind(this, hash, path);
+    if (!n) n = 1;
 
-    if (typeof path == 'string') {
-        path = path.split('/');
-        path.shift();
-    }
+    if (!this._index) this._index = {};
 
+    var pathParts = path.split('/');
     var self = this;
+
+    var nodes = {};
 
     this.load(hash, function (err, obj) {
         console.log('load', hash, err, obj);
-        var ent;
         if (err) return cb(err);
 
-        if (!path[0]) return cb(null, obj, up);
+        nodes[pathParts.slice(0, n).join('/')] = obj;
 
-        if (obj.type == 'tree' && (ent = find(obj.body, function (e) { return e.name == path[0]; }))) {
-            return pathWalk.call(self, ent.hash, path.slice(1), cb, function finish (err, replacement, done) {
-                if (err) return up(err);
-                if (replacement) {
-                    console.log('replace', obj.body[obj.body.indexOf(ent)].hash, 'with', hash);
-                    obj.body[obj.body.indexOf(ent)].hash = replacement;
-                    self.saveAs('tree', obj.body, function (err, newTree) {
-                        console.log('save', newTree, err, obj);
-                        if (err) return up(err);
-                        up(null, newTree);
-                    });
-                } else {
-                    up();
-                }
-            });
+        if (!pathParts[n]) return cb(null, obj, nodes);
+
+        var ent;
+        if (obj.type == 'tree' && (ent = find(obj.body, function (e) { return e.name == pathParts[n]; }))) {
+            return pathWalk.call(self, ent.hash, path, cb, n + 1);
         } else {
-            return cb("ENOENT");
+            return cb(null, null, nodes);
         }
-
     });
 };
 

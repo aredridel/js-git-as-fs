@@ -13,3 +13,15 @@ process.stdin.pipe(vfs.createWriteStream('input')).on('end', function () {
     vfs.commit("A nice log message");
 });
 ```
+# Atomicity
+
+Writing a file yields a hash; since it has a path associated with it, it will
+update an _internal_ index, ready for commit.
+
+The commit operation is atomic, via locking.
+
+The write-file operation is idempotent.
+
+Updating a tree is one atomic operation per level of the tree. Writing
+different data to the same path simultaneously will yield different trees
+depending on the order of the end events.

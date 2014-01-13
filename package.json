@@ -11,5 +11,6 @@
     "js-git": "~0.6.1"
   },
   "author": "Aria Stewart <aredridel@dinhe.net>",
+  "repository": "https://github.com/aredridel/js-git-as-fs",
   "license": "BSD"
 }

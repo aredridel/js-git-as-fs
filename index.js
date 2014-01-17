@@ -18,6 +18,7 @@ module.exports = function wrap(repo, ref, cb) {
                     if (err) return s.emit('error', err);
                     if (!obj) return s.emit('error', 'ENOENT');
                     if (obj.type == 'blob') {
+                        s.emit('open');
                         s.end(obj.body);
                     } else {
                         s.emit('error', 'EISDIR');
@@ -34,6 +35,7 @@ module.exports = function wrap(repo, ref, cb) {
                     pathWalk.call(repo, root, path, function (err, obj, nodes) {
                         if (err) return s.emit('error', err);
                         if (!obj || obj.type == 'blob') {
+                            s.emit('open');
                             repo.saveAs('blob', data, function (err, hash) {
                                 if (err) return s.emit('error', err);
                                 self._index[path] = {type: 'blob', hash: hash};

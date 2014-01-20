@@ -18,16 +18,10 @@ module.exports = function pathWalk(hash, path, cb, n) {
         if (!pathParts[n]) return cb(null, obj, nodes);
 
         var ent;
-        if (obj.type == 'tree' && (ent = find(obj.body, function (e) { return e.name == pathParts[n]; }))) {
+        if (obj.type == 'tree' && (ent = obj.body[pathParts[n]])) {
             return pathWalk.call(self, ent.hash, path, cb, n + 1);
         } else {
             return cb(null, null, nodes);
         }
     });
 };
-
-function find(arr, cb) {
-    for (var i in arr) {
-        if (cb(arr[i])) return arr[i];
-    }
-}

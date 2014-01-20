@@ -72,7 +72,7 @@ module.exports = function wrap(repo, ref, cb) {
                         }, function (err, hash) {
                             if (err) return cb(err);
                             root = tree;
-                            repo.writeRef('refs/heads/' + ref, hash, function (err) {
+                            repo.updateRef('refs/heads/' + ref, hash, function (err) {
                                 if (err) return cb(err);
                                 console.log('commit with message', message, 'tree', tree, 'gives', hash);
                                 cb();
@@ -104,8 +104,8 @@ module.exports = function wrap(repo, ref, cb) {
                     function writeEnt(path, ent, cb) {
                         var sub;
                         if (path) {
-                            if (!(sub = find(ent.tree, function (e) { return e.name == basename(path); }))) {
-                                ent.tree.push(sub = {mode: 0100644, name: basename(path), hash: index[path].hash});
+                            if (!(sub = ent.tree[basename(path)])) {
+                                ent.tree[basename(path)] = sub = {mode: 0100644, name: basename(path), hash: index[path].hash};
                             } else {
                                 sub.hash = index[path].hash;
                             }
@@ -144,12 +144,4 @@ function parent(path) {
 
 function basename(path) {
     return path.split('/').pop();
-}
-
-function find(array, fn) {
-    for (var i in array) {
-        if (fn(array[i])) return array[i];
-    }
-
-    return null;
 }

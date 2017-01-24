@@ -8,7 +8,7 @@
     "async": "~2.1.4"
   },
   "peerDependencies": {
-    "js-git": "~0.6.1"
+    "js-git": "~0.7.8"
   },
   "author": "Aria Stewart <aredridel@dinhe.net>",
   "repository": "https://github.com/aredridel/js-git-as-fs",

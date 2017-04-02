@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "concat-stream": "aredridel/node-concat-stream",
-    "async": "~2.1.4"
+    "async": "~2.3.0"
   },
   "peerDependencies": {
     "js-git": "~0.6.1"
